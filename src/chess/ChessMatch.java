@@ -92,7 +92,7 @@ public class ChessMatch {
 		
 		promoted = null;
 		if (movedPiece instanceof Pawn) {
-			if (movedPiece.getColor() == Color.WHITE && target.getRow() == 0 || movedPiece.getColor() == Color.BLACK && target.getRow() == 7) {
+			if ((movedPiece.getColor() == Color.WHITE && target.getRow() == 0 || movedPiece.getColor() == Color.BLACK && target.getRow() == 7)) {
 				promoted = (ChessPiece)board.piece(target);
 				promoted = replacePromotedPiece("Q");
 			}
@@ -109,7 +109,7 @@ public class ChessMatch {
 		
 		// #specialmove en passant
 		
-		if (movedPiece instanceof Pawn && (target.getRow() == source.getRow() - 2 || (target.getRow() == source.getRow() + 2))){
+		if (movedPiece instanceof Pawn && (target.getRow() == source.getRow() - 2 || target.getRow() == source.getRow() + 2)){
 			enPassantVulnerable = movedPiece;
 		}
 		else {
@@ -142,7 +142,7 @@ public class ChessMatch {
 	private ChessPiece newPiece(String type, Color color) {
 		if (type.equals("B"))return new Bishop(board, color);
 		if (type.equals("Q"))return new Queen(board, color);
-		if (type.equals("R"))return new Rook(board, color);
+		if (type.equals("N"))return new Knight(board, color);
 		return new Rook(board, color);
 	}
 	
@@ -183,10 +183,10 @@ public class ChessMatch {
 			if (source.getColumn() != target.getColumn() && capturedPiece == null) {
 				Position pawnPosition;
 				if (p.getColor() == Color.WHITE) {
-					pawnPosition = new Position(target.getRow(), target.getColumn() + 1);
+					pawnPosition = new Position(target.getRow() + 1, target.getColumn());
 					}
 				else {
-					pawnPosition = new Position(target.getRow(), target.getColumn() + 1);
+					pawnPosition = new Position(target.getRow() - 1, target.getColumn());
 				}
 				capturedPiece = board.removePiece(pawnPosition);
 				capturedPieces.add(capturedPiece);
@@ -235,10 +235,10 @@ public class ChessMatch {
 				ChessPiece pawn = (ChessPiece)board.removePiece(target);
 				Position pawnPosition;
 				if (p.getColor() == Color.WHITE) {
-					pawnPosition = new Position(3, target.getColumn() + 1);
+					pawnPosition = new Position(3, target.getColumn());
 					}
 				else {
-					pawnPosition = new Position(4, target.getColumn() + 1);
+					pawnPosition = new Position(4, target.getColumn());
 				}
 				board.placePiece(pawn, pawnPosition);
 			}
